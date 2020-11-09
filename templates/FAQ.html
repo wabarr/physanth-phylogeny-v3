@@ -1,0 +1,18 @@
+{% extends "default.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col s12"><h3>Frequently Asked Questions</h3></div>
+        {% for FAQ in FAQs %}
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">{{ FAQ.heading|safe }}</span>
+                        <p>{{ FAQ.text|safe }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

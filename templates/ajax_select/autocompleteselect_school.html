@@ -1,0 +1,12 @@
+{% extends "ajax_select/autocompleteselect.html" %}
+
+{% block extra_script %}
+<script type="text/javascript">
+    $("#{{html_id}}_on_deck").bind('added', function() {
+            fetchResults();
+    });
+    $("#{{html_id}}_on_deck").bind('killed', function() {
+      cleanUp();
+    });
+</script>
+{% endblock %}

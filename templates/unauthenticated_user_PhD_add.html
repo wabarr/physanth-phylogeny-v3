@@ -1,0 +1,141 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block content %}
+    {{ form.media }}
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h3>Add Someone To The Database</h3>
+                <p>Your submission will be added to the database after a moderator approves it. New submissions usually get added within 48 hours.</p>
+            </div>
+
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <form action="/submit_post_search/" method="post" novalidate >{% csrf_token %}
+                            {{ form.non_field_errors }}
+                            <div class="row section">
+                                <div class="col s12 m6">
+                                    {{ form.firstName.errors }}
+                                    {{ form.firstName.label_tag }}
+                                    {{ form.firstName }}
+                                </div>
+                                <div class="col s12 m6">
+                                    {{ form.lastName.errors }}
+                                    {{ form.lastName.label_tag }}
+                                    {{ form.lastName }}
+                                </div>
+                            </div>
+                            <div class="row section">
+                                <div class="col s12 m6">
+                                    {{ form.year.errors }}
+                                    {{ form.year.label_tag }}
+                                    {{ form.year }}
+                                </div>
+                                <div class="col s12 m6 ">
+                                    {{ form.school.errors }}
+                                    {{ form.school.label_tag }}
+                                    {{ form.school }}
+                                    <!-- Modal Trigger -->
+                                    <a href="#add_school" class="modal-trigger"><i class="material-icons">add</i>Add missing school to database</a>
+                                </div>
+                            </div>
+                            <div class="row section">
+                                <div class="col s10 m6">
+                                    {{ form.specialization.errors }}
+                                    {{ form.specialization.label_tag }}
+                                    {{ form.specialization }}
+                                </div>
+                                <div class="col s12 m6 ">
+                                    {{ form.advisor.errors }}
+                                    {{ form.advisor.label_tag }}
+                                    {{ form.advisor }}
+                                    <p>Note: The advisor must already be in database. If not, use this form to first add the advisor, then try again. You can add multiple advisors.</p>
+                                </div>
+                            </div>
+                            <div class="row section">
+                                <div class="col s12">
+                                    <h4>A few more things...</h4>
+                                </div>
+                                    {% if request.user.is_authenticated %}
+                                    <div class="col s12">
+                                    {{ form.submitter_user.errors }}
+                                    {{ form.submitter_user.label_tag }}
+                                    {{ form.submitter_user }}
+                                    </div>
+                                    <div class="col s12">
+                                    {{ form.submitter_email.errors }}
+                                    {{ form.submitter_email.label_tag }}
+                                    {{ form.submitter_email }}
+                                    </div>
+                                    {% else %}
+                                    <div class="col s12">
+                                    {{ form.submitter_email.errors }}
+                                    {{ form.submitter_email.label_tag }}
+                                    {{ form.submitter_email }}
+                                    </div>
+                                    {% endif %}
+                                    <div class="col s12">
+                                    {{ form.source_of_info.errors }}
+                                    {{ form.source_of_info.label_tag }}
+                                    {{ form.source_of_info }}
+                                    </div>
+                            </div>
+
+                            <button type="submit" class="waves-effect waves-light btn-large center-align btn-100-percent"><i class="material-icons left">input</i>Add person to database</button>
+                        </form>
+                      <!-- Modal Structure -->
+                        <div id="add_school" class="modal">
+                          <div class="modal-content">
+                              <h4>Add School</h4>
+                              <form id="ajax_school_add_form">
+                                  <div id="ajax-form-messages"></div>
+                                  {{ school_add_form }}
+                              </form>
+                          </div>
+
+                          <div class="modal-footer">
+                            <a href="#!" id="add-school-button" class="modal-action waves-effect waves-green btn-flat">Add School</a>
+                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript_doc_ready %}
+<script src="{% static 'js/ajax_CSRF.js' %}"></script>
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+    $("#add_school").modal();
+
+
+
+    var frm = $('#ajax_school_add_form');
+    $("#add-school-button").click(function () {
+        $.ajax({
+            type: 'POST',
+            url: "/add_school/",
+            data: frm.serialize(),
+            success: function (data) {
+                $("#ajax-form-messages").html("Success! The school has been added to the database! <br>Please close this pop-up search for the school you just added.");
+            },
+            error: function(data) {
+                $("#ajax-form-messages").html("Error!" + data["responseText"]);
+            }
+        });
+        return false;
+    });
+
+
+});
+
+</script>
+
+{% endblock %}

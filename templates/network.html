@@ -1,0 +1,134 @@
+{% extends "default.html" %}
+{% load static %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.0/vis.min.css" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+
+    {% if selectedPerson %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.0/vis.min.js"></script>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h4>{{ selectedPerson }}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <a class="waves-effect waves-light btn" href="/detail/{{ selectedPerson.URL_for_detail }}" class="black-text"><i class="material-icons left">info</i>Detail Page</a>
+            </div>
+            {% comment %}
+            <div class="col s12 m6 ">
+                <a class="waves-effect waves-light btn btn-100-percent" href="/suggest_change/{{ selectedPerson.pk }}" class="black-text"><i class="material-icons left">edit</i>Suggest a correction</a>
+            </div>
+            {% endcomment %}
+        </div>
+        <div class="row">
+            <div class="fixed-action-btn">
+                <a class="btn-floating btn-large red" href="#modal1">
+                  <i class="material-icons" style="font-size: 46px">help_outline</i>
+                </a>
+            </div>
+        </div>
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Hints for using the network graph</h4>
+                <p>Network can be zoomed.</p>
+                <p>Click on a node to expand it.</p>
+                <p>Drag nodes to change the layout.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <div class="row section">
+            <div class="col s12 ">
+                <div id="PhDnetwork"></div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h3>There is nobody here!  Try <a href="/people/">searching!</a></h3>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Structure -->
+
+    {% endif %}
+
+{% endblock %}
+
+{% block javascript_doc_ready %}
+    <script type="text/javascript">
+    $(".modal").modal();
+
+    // create a network
+    var container = document.getElementById('PhDnetwork');
+    var nodes = new vis.DataSet({{ nodes|safe }})
+    var edges = new vis.DataSet({{ edges|safe }})
+    // provide the data in the vis format
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {
+        layout:{
+        },
+        nodes : {
+            shape: 'dot',
+            size: 10
+        }
+    };
+
+    // initialize your network!
+    var network = new vis.Network(container, data, options);
+    network.on("click", function( params ) {
+        $.getJSON("/get_network_JSON/" + params.nodes + "/", function( data ){
+                nodesObj=JSON.parse(data.nodes);
+                edgesObj=JSON.parse(data.edges);
+                nodesAdded = false;
+                $.each(nodesObj, function(n){
+                    if(nodes.get(nodesObj[n].id)){} else {
+                        nodes.add(nodesObj[n]);
+                        nodesAdded = true;
+                    }
+                });
+
+                $.each(edgesObj, function(e) {
+                    var edgeExists = edges.get({
+                        filter: function (item) {
+                            return item.from == edgesObj[e].from && item.to == edgesObj[e].to;
+                        }
+                    });
+                    if(edgeExists.length > 0){
+                        //do nothing
+                    }else{
+                        edges.add(edgesObj[e]);
+                    }
+                });
+
+            if(nodesAdded === true) {
+                setTimeout(function(){
+                network.fit({
+                nodes: getNodeIDs(),
+                animation: true
+                });
+            }, 1500);
+            };
+        });
+    });
+    var getNodeIDs = function(){
+        var output = []
+        $.each(nodes, function(n){
+            output.push(n.id);
+        });
+    };
+
+</script>
+{% endblock %}

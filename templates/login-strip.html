@@ -1,0 +1,24 @@
+{% if request.user.is_authenticated %}
+    <div class="row amber lighten-3 login-row">
+        <div class="container">
+            <div class="col s6">
+                Hello, {{ request.user }}
+            </div>
+            <div class="col s6 right-align">
+                {% if request.user.userprofile.associated_PhD %}
+                    <a href="/detail/{{ request.user.userprofile.associated_PhD.id }}" style="padding-right:5px;">Your page</a>
+                {% endif %}
+                <a href="/logout/">Logout</a>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+     <div class="row amber lighten-3 login-row">
+        <div class="container">
+            <div class="col s12 right-align">
+                <a href="/login/">Login</a>
+            </div>
+        </div>
+    </div>
+{%  endif %}

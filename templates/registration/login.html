@@ -1,0 +1,37 @@
+{% extends "default.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h3>Login or create an account to claim your profile!</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card col s12 m6">
+                <div class="card-content">
+                    <span class="card-title">Login</span>
+                    <form method="post" action="/login/">{% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="waves-effect waves-light btn-large" type="submit">Login</button>
+                            <input type="hidden" name="next" value={{ next }} />
+                    </form>
+                </div>
+                <div class="card-action">
+                    <a class="blue-text lighten-3" href="/password_reset/">Forgot Password</a>
+                </div>
+            </div>
+            <div class="col s1"></div>
+            <div class="card col s12 m5">
+                <div class="card-content">
+                    <span class="card-title">Create Account</span>
+                    <p>By creating an account, you can directly control how your information appears on the website.</p>
+                </div>
+                 <div class="card-action">
+                        <a class="blue-text lighten-3" href="/create_user/">Create an account</a>
+                 </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

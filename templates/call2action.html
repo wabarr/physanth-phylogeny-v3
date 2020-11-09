@@ -1,0 +1,24 @@
+{% if not request.user.userprofile %}
+    <div class="row">
+          <div class="col s12 center-align">
+              <div class="card hoverable">
+                  <div class="card-content">
+                      <span class="card-title">Do you have a PhD in bioanth? If so you can...</span>
+                      <div class="row" style="margin-bottom:0px;">
+                          <div class="col s12 m6">
+                              <a href="/submit/?from=call2action"><button class="btn waves-effect">Add your name</button></a>
+                              <div class="section"><p>Why not add your name to our database!</p></div>
+                          </div>
+                          <div class="col s12 m6">
+                              <a href="/claim/?from=call2action"><button class="btn waves-effect">Claim existing profile</button></a>
+                                <div class="section">
+                                    <p>Claim existing profile to
+                                    update your information and add a profile picture!</p>
+                                </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+{% endif %}

@@ -1,0 +1,71 @@
+<div class="row section">
+    <div class="col s12">
+        <div class='chip blue darken-1 white-text'>{{ thePhD.school }}</div>
+        {% for special in thePhD.specialization.all %}<div class="chip">{{ special }}</div>{% endfor %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12">
+    {% if user_profile.current_position %}
+        <div class="row">
+            <div class="col s12 ">
+                <b>Current position: </b>{{ user_profile.current_position }}
+            </div>
+        </div>
+    {% else %}
+        {%  if user_profile.user == request.user %}
+            <div class="row">
+                <div class="col s12 ">
+                    <b>Current position: </b><a href="/edit_profile/{{ request.user.userprofile.id }}">Add your current position</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if user_profile.current_affiliation %}
+        <div class="row">
+            <div class="col s12 ">
+                <b>Current affiliation: </b>{{ user_profile.current_affiliation }}
+            </div>
+        </div>
+    {% else %}
+        {%  if user_profile.user == request.user %}
+            <div class="row">
+                <div class="col s12 ">
+                    <b>Current affiliation: </b><a href="/edit_profile/{{ request.user.userprofile.id }}">Add your current affiliation</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if user_profile.research_website %}
+        <div class="row">
+            <div class="col s12 ">
+                <b>Research website:</b> <a target="_blank" href="{{ user_profile.research_website }}">Link</a>
+            </div>
+        </div>
+    {% else %}
+        {%  if user_profile.user == request.user %}
+            <div class="row">
+                <div class="col s12 ">
+                    <b>Research website: </b><a href="/edit_profile/{{ request.user.userprofile.id }}">Add your research website</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if user_profile.research_blurb %}
+        <div class="row">
+            <div class="col s12 ">
+                <b>Research description:</b> {{ user_profile.research_blurb }}
+            </div>
+        </div>
+    {% else %}
+        {%  if user_profile.user == request.user %}
+            <div class="row">
+                <div class="col s12 ">
+                    <b>Research description: </b><a href="/edit_profile/{{ request.user.userprofile.id }}">Add research description</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+</div>

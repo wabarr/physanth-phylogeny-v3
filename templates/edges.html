@@ -1,0 +1,18 @@
+[
+{% for PhD in PhDs %}
+
+    {% if PhD.advisor.all|length == 0 %}
+        { "id":{{ PhD.pk }}, "advisor": "none", "student": "{{ PhD.name_for_big_tree|escapejs }}"},
+    {% elif PhD.advisor.all|length > 1 %}
+        {% with PhD.advisor.all|random as rando %}
+            { "id":{{ PhD.pk }}, "advisor": "{{ rando.name_for_big_tree|escapejs }}", "student": "{{ PhD.name_for_big_tree|escapejs }}", "coadvisee":"yes"},
+        {% endwith %}
+    {% else %}
+        {% with PhD.advisor.all|random as rando %}
+            { "id":{{ PhD.pk }}, "advisor": "{{ rando.name_for_big_tree|escapejs }}", "student": "{{ PhD.name_for_big_tree|escapejs }}"},
+        {% endwith %}
+    {% endif %}
+
+{% endfor %}
+{"advisor":"", "student":"none"}
+]

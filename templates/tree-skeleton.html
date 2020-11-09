@@ -1,0 +1,23 @@
+{% extends "default.html" %}
+{% load static %}
+  {% block og-url %}"https://www.bioanthtree.org/tree/"{% endblock %}
+  {% block fb-image %}
+      <meta property="og:image" content="https://www.bioanthtree.org/{% static "images/tree-fb.png" %}" />
+  {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h3>Tree View</h3>
+                <p>This tree shows all {{ PhD_count }} people in our database.</p>
+                <p><b>Warning</b>: the tree is VERY large.  It takes a long time to load and works best on large screens.</p>
+                <p>Click on any name to see more details. Use your browser's search function to find a name (CTRL or COMMAND + F).</p>
+                <p><b>Note:</b> To force a network structure into a hierarchical tree, people with more than one advisor are shown under only one of their advisors. The advisor is chosen at random from the available co-advisors each time the tree is drawn. Coadvised students are <span style="color:#2196f3;">labeled in blue text</span>.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            {% include "tree.html" %}
+    </div>
+{% endblock  %}

@@ -1,0 +1,105 @@
+{% load static %}
+<div class="col s12 m8 offset-m2">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title center" style="font-size:30px;">
+                {{ thePhD }}{% if thePhD.year %} ({{ thePhD.year }}){% endif %}
+                {% if not request.user == thePhD.userprofile.user %}
+                    <a class="tooltipped" data-tooltip="Suggest an edit for this person" href="/suggest_change/{{ thePhD.id }}/"><i class="material-icons">edit</i></a>
+                {% endif %}
+            </span>
+            <div class="card-tabs">
+                <ul class="tabs tabs-fixed-width">
+                    {% if thePhD.userprofile.userprofilepicture or thePhD.legacypicture %}
+                        <li class="tab"><a class="active" href="#photo{{ thePhD.id }}">Photo</a></li>
+                        <li class="tab"><a href="#profile{{ thePhD.id }}">Profile</a></li>
+                    {% else %}
+                        <li class="tab"><a class="active" href="#profile{{ thePhD.id }}">Profile</a></li>
+                    {% endif %}
+
+                    <li class="tab"><a href="#connections{{ thePhD.id }}">Connections</a></li>
+                </ul>
+            </div>
+
+            {% if thePhD.userprofile.userprofilepicture or thePhD.legacypicture %}
+            <div id="photo{{ thePhD.id }}">
+                <div class="row section">
+                    <div class="col s12 l8 offset-l2">
+                        <img class="materialboxed" style="margin:auto; max-width: 100%;"
+                             src="{% get_media_prefix %}{% if thePhD.userprofile.userprofilepicture %}{{ thePhD.userprofile.userprofilepicture.photo }}{% else %}{{ thePhD.legacypicture.photo }}{% endif %}.THUMBNAIL"
+                        >
+                    </div>
+                </div>
+                    {% if thePhD.userprofile.user == request.user %}
+                    <div class="row section">
+                        <div class="col s12">
+                        <a href="/change_profile_pic/"><button class="btn">Change Photo</button></a>
+                        </div>
+                    </div>
+                    {% endif %}
+            </div>
+            {% endif %}
+
+
+
+
+            <div id="profile{{ thePhD.id }}">
+                {% include "PhD_profile_details.html" %}
+                {% if not thePhD.userprofile.userprofilepicture and not thePhD.legacypicture and thePhD.userprofile.user == request.user %}
+                            <div class="col s12 section">
+                                <a href="/upload_profile_pic"><button class="btn">Upload Profile Photo</button></a>
+                            </div>
+                {% endif %}
+            </div>
+
+
+
+            <div id="connections{{ thePhD.id }}">
+
+
+
+                <div class="row section">
+                <span class="card-title center">Advisor</span>
+                    <div class="col s12">
+                        {% for advisor in thePhD.advisor.all %}
+                            <a href="/detail/{{ advisor.URL_for_detail }}">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">
+                                    {{ advisor }}
+                                    {% if advisor.year %}({{ advisor.year }}){% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                {% if students|length > 0 %}
+
+                        <div class="row section">
+                        <span class="card-title center">Students</span>
+                            <div class="col s12">
+                                {% for student in students %}
+                                    <a href="/detail/{{ student.URL_for_detail }}">
+                                    <div class="card">
+                                    <div class="card-content">
+                                    <span class="card-title">
+                                        {{ student }}
+                                        {% if student.year %}({{ student.year }}){% endif %}
+                                    </span>
+                                    </div>
+                                    </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+            {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+

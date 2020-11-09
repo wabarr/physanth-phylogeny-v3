@@ -1,0 +1,8 @@
+academicPhylogeny/secrets.*
+physAnthDB.sqlite3
+media/
+static/
+physanth-phylogeny-v2-env/
+physanth_phylogeny_v2.sock
+.idea/
+*.pyc

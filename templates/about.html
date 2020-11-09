@@ -1,0 +1,59 @@
+{% extends "default.html" %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <div class="container">
+            <div class="col s12">
+                       <h3>About our Project</h3>
+                <p>The goal of this project is to track the relationships among PhDs in
+                Biological Anthropology. Back in 2013, we were inspired by
+                <a href="http://dx.doi.org/10.1002/ajpa.20532">a paper by Elizabeth Kelley and Robert Sussman</a> in the <em>American Journal of Physical Anthropology</em>,
+                which presented "genealogy data" on field primatologists.
+                Genealogy is probably the more accurate term, but we like to think of it as a
+                phylogenetic tree. Using web tools, we are expanding on previous work by providing
+                interactive visualizations of this data, and by allowing people from all over the world
+                    to contribute their data.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'images/WAB_headshot.jpg' %}">
+                    </div>
+                    <div class="card-content">
+                        <h5>W. Andrew Barr</h5>
+                        Andrew is an Assistant Professor in the Center for the Advanced Study of Human Paleobiology and the Department of Anthropology at George Washington University.  He studies the environmental and ecological context of early human evolution. His PhD advisor at UT Austin was <a href="/detail/Denné_Reed/">Denn&eacute Reed</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'images/Brett_Headshot.png' %}">
+                    </div>
+                    <div class="card-content">
+                        <h5>Brett Nachman</h5>
+                        Brett is a Lecturer in the Anthropology Department at University of North Carolina, Greensboro. He studies early Eocene mammalian evolution, as well as the paleoenvironmental context of modern human subsistence strategies in the late Pleistocene.
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'images/liza.jpeg' %}">
+                    </div>
+                    <div class="card-content">
+                        <h5>Liza Shapiro</h5>
+                        Liza</a> is a Professor at the University of Texas at Austin.  She studies the functional morphology and evolution of primate locomotion. Her PhD advisor at Stony Brook University was <a href="/detail/William_Jungers/">Bill Jungers</a>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

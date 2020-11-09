@@ -1,0 +1,111 @@
+{% extends "default.html" %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        {% if user_profile.user == request.user %}
+            {% if  request.user.userprofile.moderator_approved %}
+                {{ form.media }}
+                <div class="container">
+                    <div class="row right-align">
+                        <div class="col s12">
+                            You can add employment and research details
+                        </div>
+                        <div class="col s12">
+                            <a href="/edit_profile/{{ user_profile.id }}/">
+                                <button class="btn amber lighten-5 black-text">Edit extended profile</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row section">
+                        <div class="col s12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">Edit basic details</span>
+                                    <form action="" method="post" novalidate >{% csrf_token %}
+                                        {{ form.non_field_errors }}
+                                        <div class="row section">
+                                            <div class="col s12 m6">
+                                                {{ form.firstName.errors }}
+                                                {{ form.firstName.label_tag }}
+                                                {{ form.firstName }}
+                                            </div>
+                                            <div class="col s12 m6">
+                                                {{ form.lastName.errors }}
+                                                {{ form.lastName.label_tag }}
+                                                {{ form.lastName }}
+                                            </div>
+                                        </div>
+                                        <div class="row section">
+                                            <div class="col s12 m6">
+                                                {{ form.year.errors }}
+                                                {{ form.year.label_tag }}
+                                                {{ form.year }}
+                                            </div>
+                                            <div class="col s12 m6 ">
+                                                {{ form.school.errors }}
+                                                {{ form.school.label_tag }}
+                                                {{ form.school }}
+                                            </div>
+                                        </div>
+                                        <div class="row section">
+                                            <div class="col s10 m6">
+                                                {{ form.specialization.errors }}
+                                                {{ form.specialization.label_tag }}
+                                                {{ form.specialization }}
+                                            </div>
+                                            <div class="col s12 m6 ">
+                                                {{ form.advisor.errors }}
+                                                {{ form.advisor.label_tag }}
+                                                {{ form.advisor }}
+                                                <p>Note: The advisor must already be in database. If not, <a href="/submit/">use the submit form</a> to first add the advisor, then try again. You can add multiple advisors.</p>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="waves-effect waves-light btn-large center-align btn-100-percent">Update this page</button>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <h3>Sorry {{ request.user }}...</h3>
+                        <p>Your account has not yet been approved by a moderator, so you cannot edit your page yet.</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% else %}
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h3>You are not authorized to edit this page.</h3>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% else %}
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h3>You are not logged in.  Nothing to see here.</h3>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascript_doc_ready %}
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+  });
+
+</script>
+
+{% endblock %}

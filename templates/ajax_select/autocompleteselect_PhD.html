@@ -1,0 +1,31 @@
+{% extends "ajax_select/autocompleteselect.html" %}
+
+{% block extra_script %}
+<script type="text/javascript">
+    $("#{{html_id}}_on_deck").bind('added', function() {
+        // only redirect if called from the search page
+        if (window.location.pathname === '/people/') {
+            redirect2detail($("#{{html_id}}").val());
+        }
+
+        if(window.location.pathname === '/submit/'){
+            $("#name-container").text("edit " + $("#id_search_by_name_on_deck").find(".chip").html());
+            $("#edit_button").attr('href', "/suggest_change/" + $("#{{html_id}}").val()).show()
+            $("#or").show()
+            $("#add_button").show()
+        }
+
+    });
+
+    $("#{{html_id}}_on_deck").bind('killed', function() {
+        if (window.location.pathname === '/people/') {
+            cleanUp();
+        }
+        if (window.location.pathname === '/submit/') {
+           $("#edit_button").hide();
+           $("#or").hide()
+           $("#add_button").hide()
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!-- This template is for formatting search results
+wich are dynamically inserted via ajax from the person_list.html template -->
+{% for object in object_list %}
+    <div class="col s12">
+    <a href="/detail/{{ object.URL_for_detail }}">
+        <div class="card amber lighten-5 hoverable person-card">
+                <div class="card-content">
+                <span class="card-title black-text">{{ object.firstName }} {{ object.lastName }} ({{ object.year }})</a></span>
+                <div class="chip blue darken-1 white-text">{{ object.school }}</div>
+                {% for special in object.specialization.iterator %}
+                    <div class="chip white">{{ special }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </a>
+    </div>
+{% empty %}
+    <div class="col s12 16">
+        <div class="card red lighten-1 white-text">
+            <div class="card-content">
+                <span class="card-title">No matches found for the search criteria you provided</span>
+            </div>
+        </div>
+    </div>
+{% endfor %}

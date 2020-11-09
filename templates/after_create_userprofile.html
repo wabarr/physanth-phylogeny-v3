@@ -1,0 +1,12 @@
+{% extends "default.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h3>Congrats {{ request.user }}!</h3>
+                <p>Your user profile has been created. After a moderator approves your request, you will receive an email with instructions on how to update your info.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

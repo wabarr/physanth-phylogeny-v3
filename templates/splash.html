@@ -1,0 +1,90 @@
+{% extends "default.html" %}
+{% load static %}
+{% block content %}
+
+
+
+  <div class="container">
+      <div class="row" style="padding-top:20px;">
+
+          <h3 class="header center black-text">Academic Phylogeny of <del>Physical</del> Biological Anthropology</h3>
+                  <p class="center-align">Tracing the academic lineages of biological anthropology PhDs</p>
+
+      </div>
+
+  {% comment %}
+     <div class="row">
+         <div class="col s2 offset-s1">
+             <a href="/people/" class="black-text"><i class="fa fa-search fa-4x" aria-hidden="true"></i></a>
+         </div>
+         <div class="col s2">
+             <a href="/FAQ/" class="black-text"><i class="fa fa-question-circle fa-4x" aria-hidden="true"></i></a>
+         </div>
+         <div class="col s2">
+             <a href="/trends/" class="black-text"><i class="fa fa-line-chart fa-4x" aria-hidden="true"></i></a>
+         </div>
+         <div class="col s2">
+             <a href="/claim/" class="black-text"><i class="fa fa-user fa-4x" aria-hidden="true"></i></a>
+         </div>
+         <div class="col s2">
+             <a href="/tree/" class="black-text"><i class="fa fa-tree fa-4x" aria-hidden="true"></i></a>
+         </div>
+     </div>
+     {% endcomment %}
+      <!--   Icon Section   -->
+      <div class="row">
+           <div class="col s2 offset-s1">
+                    <a href="/people/" class="black-text">
+                        <h2 class="center light-blue-text"><i class="material-icons tooltipped mainpageicon" data-tooltip="Find people">search</i></h2>
+                    </a>
+        </div>
+        <div class="col s2">
+                    <a href="/about/" class="black-text">
+                            <h2 class="center light-blue-text"><i class="material-icons tooltipped mainpageicon"  data-tooltip="What's this all about?">help</i></h2>
+                    </a>
+        </div>
+        <div class="col s2">
+                    <a href="/trends/" class="black-text">
+                        <h2 class="center light-blue-text"><i class="material-icons tooltipped mainpageicon"  data-tooltip="Explore trends">trending_up</i></h2>
+                    </a>
+        </div>
+        <div class="col s2">
+                    <a href="/claim/" class="black-text">
+                        <h2 class="center light-blue-text"><i class="material-icons tooltipped mainpageicon" data-tooltip="Your profile">person</i></h2>
+                    </a>
+        </div>
+        <div class="col s2">
+                    <a href="/tree/" class="black-text">
+                        <h2 class="center light-blue-text"><i class="fa fa-tree tooltipped mainpageicon" data-tooltip="View full tree" aria-hidden="true"></i></h2>
+                    </a>
+        </div>
+
+
+
+      </div>
+
+      <div class="row section center">
+          <h4>Featured Biological Anthropologists</h4>
+          <p><a href="/claim/">Claim your profile</a> to be featured here!</p>
+          <div class="col s12 carousel">
+              {% for object in object_list %}
+                  {% with object as thePhD%}
+                      <a class="carousel-item" href="/detail/{{ thePhD.URL_for_detail }}">
+                          <img class="gallery-img" src="{% get_media_prefix %}{% if thePhD.userprofile.userprofilepicture %}{{ thePhD.userprofile.userprofilepicture.photo }}{% else %}{{ thePhD.legacypicture.photo }}{% endif %}.THUMBNAIL"/>
+                          <span class="carousel-caption">{{ thePhD }}</span>
+                      </a>
+                  {% endwith %}
+              {% endfor %}
+          </div>
+      </div>
+
+  </div>
+
+    {% block javascript_doc_ready %}
+        <script>
+            $(document).ready(function(){
+                    $('.carousel').carousel({fullWidth: true});
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
