@@ -55,7 +55,7 @@ urlpatterns = [
     url(r'^detail/(?P<pk>\d+)/$', PhD_numeric_detail_view, name="PhD-numeric-detail-view"),
     url(r'^detail/(?P<URL_for_detail>[\w\-\_\.]+)/$', PhDDetailView.as_view(), name="PhD-detail-view"),
     url(r'^add_school/$',SchoolAddView.as_view()),
-    url(r'^signup/$',MailingListOptInView.as_view()),
+    #url(r'^signup/$',MailingListOptInView.as_view()),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': {"PhD":PhDSitemap}},
         name='django.contrib.sitemaps.views.sitemap'),
     url(r'^edges/$',EdgesView.as_view()),
